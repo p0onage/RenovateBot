@@ -1,0 +1,27 @@
+trigger:
+- master
+
+schedules:
+- cron: "0 6 * * *"
+  displayName: Daily
+  branches:
+    include:
+    - master
+  always: true
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UseNode@1
+  inputs:
+    version: '12.x'
+- task: YarnInstaller@3
+  inputs:
+    versionSpec: '1.x'
+- task: RenovateMe@0
+  inputs:
+    renovateOptionsVersion: 'latest'
+    #renovateOptionsArgs: ''
+  env:
+    system_accesstoken: $(System.AccessToken)
